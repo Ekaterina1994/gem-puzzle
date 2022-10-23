@@ -1,7 +1,10 @@
-document.body.innerHTML = `<header>
+document.body.innerHTML = `<div class="container">
+<header>
 <button class="button new-game">New game</button>
 </header>
-<div class="square"></div>`;
+<div class="square">
+</div>
+</div>`;
 const SQUARE = document.querySelector(".square");
 
 const RANDOM = () => {

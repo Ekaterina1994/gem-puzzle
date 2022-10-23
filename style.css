@@ -8,32 +8,37 @@
 
 html {
   height: 100vh;
-  background-color: #FAFAD2;
+  background-color: #fafad2;
 }
 
 body {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
+}
+
+.container {
+  width: 460px;
+  margin: 0 auto;
   padding: 1rem;
+  text-align: center;
 }
 
 .square {
-  width: 320px;
-  height: 320px;
-  border: 2px solid #FF6347;
+  width: 100%;
+  padding-bottom: 100%;
+  border: 2px solid #ff6347;
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .cell {
   width: 25%;
   height: 25%;
-  border: 1px solid #FAFAD2;
-  background-color: #FF6347;
+  border: 1px solid #fafad2;
+  background-color: #ff6347;
   position: absolute;
   top: 0;
   left: 0;
@@ -46,26 +51,28 @@ body {
 
 .cell:hover {
   cursor: pointer;
-  background-color: #FAFAD2;
-  border: 1px solid #FF6347;
-  color: #FF6347;
+  background-color: #fafad2;
+  border: 1px solid #ff6347;
+  color: #ff6347;
 }
 
 .button {
-  background-color: #FAFAD2;
+  text-align: center;
+  background-color: #fafad2;
   width: 320px;
   height: 50px;
   font-size: 1rem;
-  border: 2px solid #FF6347;
+  border: 2px solid #ff6347;
+  margin: 0 auto;
   margin-bottom: 1rem;
   font-size: 1.5rem;
-  color:#FF6347;
+  color: #ff6347;
   font-weight: bold;
 }
 
 .button:hover {
-  background-color: #FF6347;
+  background-color: #ff6347;
   cursor: pointer;
   transition: all 0.3s;
-  color: #FAFAD2;
+  color: #fafad2;
 }
