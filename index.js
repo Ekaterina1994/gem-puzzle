@@ -5,7 +5,7 @@ document.body.innerHTML = `<header>
 const SQUARE = document.querySelector(".square");
 
 const RANDOM = () => {
-  let size = 16,
+  let size = 17,
     arr = [],
     array = [];
 
@@ -22,24 +22,38 @@ const RANDOM = () => {
 
 let randomArray = RANDOM();
 
-randomArray.forEach((elem) => {
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
+arr.forEach((elem) => {
   const CELL = document.createElement("div");
   CELL.className = "cell";
+
   CELL.innerHTML = elem;
+  CELL.dataset.number = elem;
 
   SQUARE.append(CELL);
 });
+
+// randomArray.forEach((elem) => {
+//   const CELL = document.createElement("div");
+//   CELL.className = "cell";
+
+//   CELL.innerHTML = elem;
+//   CELL.dataset.number = elem;
+
+//   SQUARE.append(CELL);
+// });
 
 // Create game field by matrix
 
 const CELLS = document.querySelectorAll(".cell");
 const CELLS_ARRAY = Array.from(CELLS);
 
-CELLS_ARRAY.forEach((cell) => {
-  cell.addEventListener("click", () => {
-    console.log("2");
-  });
-});
+// CELLS_ARRAY.forEach((cell) => {
+//   cell.addEventListener("click", () => {
+//     console.log("2");
+//   });
+// });
 
 const MATRIX = [[], [], [], []];
 
@@ -87,4 +101,52 @@ NEW_GAME.addEventListener("click", () => {
   matrixItem(reloadMatrix);
 });
 
+// Add movement for cells
 
+const emptyCell = 16;
+CELLS_ARRAY[emptyCell - 1].style.display = "none";
+
+const getCoordinates = (cellnumber, matrix) => {
+  for (let y = 0; y < matrix.length; y++) {
+    for (let x = 0; x < matrix[y].length; x++) {
+      if (matrix[y][x] === cellnumber) {
+        return { x, y };
+      }
+    }
+  }
+};
+
+const move = (cellCoordinates, emptyCellCoordinates, matrix) => {
+  const cellCoordinatesNumber = matrix[cellCoordinates.y][cellCoordinates.x];
+  matrix[cellCoordinates.y][cellCoordinates.x] = matrix[emptyCellCoordinates.y][emptyCellCoordinates.x];
+  matrix[emptyCellCoordinates.y][emptyCellCoordinates.x] = cellCoordinatesNumber;
+};
+
+CELLS_ARRAY.forEach((el) => {
+  el.addEventListener("click", (event) => {
+    const cellItem = event.target.closest("div");
+
+    const cellNumber = Number(cellItem.dataset.number);
+    const cellCoordinates = getCoordinates(cellNumber, matrix);
+    const emptyCellCoordinates = getCoordinates(emptyCell, matrix);
+
+    const isPossible = (cellCoordinates, emptyCellCoordinates) => {
+      const diffX = Math.abs(cellCoordinates.x - emptyCellCoordinates.x);
+      const diffY = Math.abs(cellCoordinates.y - emptyCellCoordinates.y);
+
+      return (
+        (diffX === 1 || diffY === 1) &&
+        (cellCoordinates.x === emptyCellCoordinates.x ||
+          cellCoordinates.y === emptyCellCoordinates.y)
+      );
+    };
+
+    const isValid = isPossible(cellCoordinates, emptyCellCoordinates);
+    console.log(isValid);
+
+    if (isValid) {
+      move(cellCoordinates, emptyCellCoordinates, matrix);
+      matrixItem(matrix);
+    }
+  });
+});
