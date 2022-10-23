@@ -14,6 +14,7 @@ html {
 body {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 1rem;
@@ -40,12 +41,31 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  transition: transform 0.3s;
+  transition: all 0.3s;
 }
 
 .cell:hover {
   cursor: pointer;
   background-color: #FAFAD2;
+  border: 1px solid #FF6347;
   color: #FF6347;
 }
 
+.button {
+  background-color: #FAFAD2;
+  width: 320px;
+  height: 50px;
+  font-size: 1rem;
+  border: 2px solid #FF6347;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color:#FF6347;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #FF6347;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #FAFAD2;
+}

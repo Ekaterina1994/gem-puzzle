@@ -1,7 +1,7 @@
-// const square = document.createElement("div");
-// document.body.appendChild(square);
-
-document.body.innerHTML = `<div class="square"></div>`;
+document.body.innerHTML = `<header>
+<button class="button new-game">New game</button>
+</header>
+<div class="square"></div>`;
 const SQUARE = document.querySelector(".square");
 
 const RANDOM = () => {
@@ -60,7 +60,6 @@ const getMatrix = (array) => {
   return MATRIX;
 };
 
-
 const matrixItem = (matrix) => {
   for (let y = 0; y < matrix.length; y++) {
     for (let x = 0; x < matrix[y].length; x++) {
@@ -78,4 +77,14 @@ const matrixItemPosition = (node, x, y) => {
 
 let matrix = getMatrix(randomArray);
 matrixItem(matrix);
+
+// New game without reload the page
+
+const NEW_GAME = document.querySelector(".new-game");
+
+NEW_GAME.addEventListener("click", () => {
+  let reloadMatrix = getMatrix(RANDOM());
+  matrixItem(reloadMatrix);
+});
+
 
