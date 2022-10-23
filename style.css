@@ -1,15 +1,51 @@
+/* #FF4500 */
+
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
+  user-select: none;
 }
 
 html {
   height: 100vh;
-  background-color: beige;
+  background-color: #FAFAD2;
 }
 
 body {
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.square {
+  width: 320px;
+  height: 320px;
+  border: 2px solid #FF6347;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  width: 25%;
+  height: 25%;
+  border: 1px solid #FAFAD2;
+  background-color: #FF6347;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  transition: transform 0.3s;
+}
+
+.cell:hover {
+  cursor: pointer;
+  background-color: #FAFAD2;
+  color: #FF6347;
 }
 
