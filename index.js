@@ -1,6 +1,15 @@
+let minute = 0;
+let second = 0;
+let interval;
+let moves = 0;
+
 document.body.innerHTML = `<div class="container">
 <header>
 <button class="button new-game">New game</button>
+<div class="timer-block">
+<div class="time">Time: <span class="minute">00</span>:<span class="second">00</span></div>
+</div>
+<div class="steps">Moves: <span class="moves">0</span></div>
 </header>
 <div class="square">
 </div>
@@ -37,26 +46,10 @@ arr.forEach((elem) => {
   SQUARE.append(CELL);
 });
 
-// randomArray.forEach((elem) => {
-//   const CELL = document.createElement("div");
-//   CELL.className = "cell";
-
-//   CELL.innerHTML = elem;
-//   CELL.dataset.number = elem;
-
-//   SQUARE.append(CELL);
-// });
-
 // Create game field by matrix
 
 const CELLS = document.querySelectorAll(".cell");
 const CELLS_ARRAY = Array.from(CELLS);
-
-// CELLS_ARRAY.forEach((cell) => {
-//   cell.addEventListener("click", () => {
-//     console.log("2");
-//   });
-// });
 
 const MATRIX = [[], [], [], []];
 
@@ -102,6 +95,10 @@ const NEW_GAME = document.querySelector(".new-game");
 NEW_GAME.addEventListener("click", () => {
   let reloadMatrix = getMatrix(RANDOM());
   matrixItem(reloadMatrix);
+  reloadMoves();
+  reloadTimer();
+  clearInterval(interval);
+  interval = setInterval(startTimer, 1000);
 });
 
 // Add movement for cells
@@ -121,12 +118,14 @@ const getCoordinates = (cellnumber, matrix) => {
 
 const move = (cellCoordinates, emptyCellCoordinates, matrix) => {
   const cellCoordinatesNumber = matrix[cellCoordinates.y][cellCoordinates.x];
-  matrix[cellCoordinates.y][cellCoordinates.x] = matrix[emptyCellCoordinates.y][emptyCellCoordinates.x];
-  matrix[emptyCellCoordinates.y][emptyCellCoordinates.x] = cellCoordinatesNumber;
+  matrix[cellCoordinates.y][cellCoordinates.x] =
+    matrix[emptyCellCoordinates.y][emptyCellCoordinates.x];
+  matrix[emptyCellCoordinates.y][emptyCellCoordinates.x] =
+    cellCoordinatesNumber;
 };
 
-CELLS_ARRAY.forEach((el) => {
-  el.addEventListener("click", (event) => {
+CELLS_ARRAY.forEach((cell) => {
+  cell.addEventListener("click", (event) => {
     const cellItem = event.target.closest("div");
 
     const cellNumber = Number(cellItem.dataset.number);
@@ -150,6 +149,79 @@ CELLS_ARRAY.forEach((el) => {
     if (isValid) {
       move(cellCoordinates, emptyCellCoordinates, matrix);
       matrixItem(matrix);
+      countMoves();
     }
   });
 });
+
+// Drag and drop
+
+CELLS_ARRAY.forEach((cell) => {
+  cell.draggable = "true";
+});
+
+// CELLS.ondragover = allowDrop;
+
+const dragDrop = () => {
+  const dragOver = function () {
+    console.log(2);
+  };
+
+  const dragEnter = function () {
+    console.log(2);
+  };
+
+  const dragDropp = function () {
+    this.append(CELLS);
+  };
+
+  CELLS_ARRAY.forEach((cell) => {
+    cell.addEventListener("dragover", dragOver);
+    cell.addEventListener("dragenter", dragEnter);
+    cell.addEventListener("drop", dragDropp);
+  });
+};
+
+// game duration and number of moves are displayed
+
+const MINUTE = document.querySelector(".minute");
+const SECOND = document.querySelector(".second");
+
+const startTimer = () => {
+  second++;
+  if (second < 10) {
+    SECOND.innerText = "0" + second;
+  } else if (second > 9) {
+    SECOND.innerText = second;
+  }
+  if (second > 59) {
+    minute++;
+    MINUTE.innerText = "0" + minute;
+    second = 0;
+    SECOND.innerText = "0" + second;
+  }
+};
+
+const reloadTimer = () => {
+  clearInterval(interval);
+  minute = 0;
+  second = 0;
+  MINUTE.textContent = "00";
+  SECOND.textContent = "00";
+};
+
+const MOVES = document.querySelector(".moves");
+
+const countMoves = () => {
+  moves++;
+  MOVES.innerHTML = "0" + moves;
+};
+
+const reloadMoves = () => {
+  moves = 0;
+  MOVES.innerHTML = "0";
+};
+
+
+// add sounds
+
