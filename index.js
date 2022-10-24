@@ -38,9 +38,27 @@ const RANDOM = () => {
   return array;
 };
 
+const RANDOM2 = () => {
+  let size = 10,
+    arr = [],
+    array = [];
+
+  for (let i = 1; i < size; i++) {
+    arr.push(i);
+  }
+
+  for (let i = 1; i < size; i++) {
+    let value = arr.splice(Math.round(Math.random() * (size - i - 1)), 1);
+    array.push(value.pop());
+  }
+  return array;
+};
+
 let randomArray = RANDOM();
+let randomArray2 = RANDOM2();
 
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 arr.forEach((elem) => {
   const CELL = document.createElement("div");
@@ -99,8 +117,11 @@ matrixItem(matrix);
 const NEW_GAME = document.querySelector(".new-game");
 
 NEW_GAME.addEventListener("click", () => {
-  let reloadMatrix = getMatrix(RANDOM());
-  matrixItem(reloadMatrix);
+  // let reloadMatrix = getMatrix(RANDOM());
+  // matrixItem(reloadMatrix);
+  randomSwap(matrix);
+  matrixItem(matrix);
+  shuffle();
   reloadMoves();
   reloadTimer();
   clearInterval(interval);
@@ -132,8 +153,8 @@ const move = (cellCoordinates, emptyCellCoordinates, matrix) => {
 
 CELLS_ARRAY.forEach((cell) => {
   cell.addEventListener("click", (event) => {
-      soundClick();
-    
+    soundClick();
+
     const cellItem = event.target.closest("div");
 
     const cellNumber = Number(cellItem.dataset.number);
@@ -242,4 +263,75 @@ const soundClick = () => {
   }
 };
 
+// clever shuffle
+
+const findValidCoordinates = ({ emptyCoordinates, matrix, blockCoordinates }) => {
+  const validCors = [];
+
+  const isPossible = (cellCoordinates, emptyCellCoordinates) => {
+    const diffX = Math.abs(cellCoordinates.x - emptyCellCoordinates.x);
+    const diffY = Math.abs(cellCoordinates.y - emptyCellCoordinates.y);
+
+    return (
+      (diffX === 1 || diffY === 1) &&
+      (cellCoordinates.x === emptyCellCoordinates.x ||
+        cellCoordinates.y === emptyCellCoordinates.y)
+    );
+  };
+
+  for (let y = 0; y < matrix.length; y++) {
+    for (let x = 0; x < matrix[y].length; x++) {
+      if (isPossible({ x, y }, emptyCoordinates)) {
+        if (!blockCoordinates || !(
+          blockCoordinates.x === x && blockCoordinates.y === y
+        )) {
+          validCors.push({ x, y });
+        }
+      }
+    }
+  }
+
+  return validCors;
+};
+
+let blockCoordinates = null;
+
+const randomSwap = (matrix) => {
+  const emptyCoordinates = getCoordinates(emptyCell, matrix);
+  const validCoordinates = findValidCoordinates({
+    emptyCoordinates,
+    matrix,
+    blockCoordinates,
+  });
+
+  const finalCoordinates =
+    validCoordinates[Math.round(Math.random() * (validCoordinates.length - 1))];
+
+  move(emptyCoordinates, finalCoordinates, matrix);
+
+  blockCoordinates = emptyCoordinates;
+
+
+};
+
+const countShuffle = 100;
+
+let timer;
+let shuffleCount = 0;
+
+const shuffle = () => {
+  clearInterval(timer);
+  if (shuffleCount === 0) {
+    timer = setInterval(() => {
+      randomSwap(matrix);
+      matrixItem(matrix);
+      shuffleCount++;
+  
+      if (shuffleCount >= countShuffle) {
+        shuffleCount = 0;
+        clearInterval(timer);
+      }
+    }, 50);
+  }  
+};
 
