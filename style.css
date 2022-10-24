@@ -1,0 +1,78 @@
+/* #FF4500 */
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html {
+  height: 100vh;
+  background-color: #fafad2;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.container {
+  width: 460px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.square {
+  width: 100%;
+  padding-bottom: 100%;
+  border: 2px solid #ff6347;
+  position: relative;
+}
+
+.cell {
+  width: 25%;
+  height: 25%;
+  border: 1px solid #fafad2;
+  background-color: #ff6347;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  transition: all 0.3s;
+}
+
+.cell:hover {
+  cursor: pointer;
+  background-color: #fafad2;
+  border: 1px solid #ff6347;
+  color: #ff6347;
+}
+
+.button {
+  text-align: center;
+  background-color: #fafad2;
+  width: 320px;
+  height: 50px;
+  font-size: 1rem;
+  border: 2px solid #ff6347;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #ff6347;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #ff6347;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #fafad2;
+}
