@@ -10,6 +10,12 @@ document.body.innerHTML = `<div class="container">
 <div class="time">Time: <span class="minute">00</span>:<span class="second">00</span></div>
 </div>
 <div class="steps">Moves: <span class="moves">0</span></div>
+<div class="sound">
+<select class="button sound" name="sound" id="music">
+  <option value="on" >Sound on</option>
+  <option value="off">Sound off</option>
+</select>
+</div>
 </header>
 <div class="square">
 </div>
@@ -126,6 +132,8 @@ const move = (cellCoordinates, emptyCellCoordinates, matrix) => {
 
 CELLS_ARRAY.forEach((cell) => {
   cell.addEventListener("click", (event) => {
+      soundClick();
+    
     const cellItem = event.target.closest("div");
 
     const cellNumber = Number(cellItem.dataset.number);
@@ -222,6 +230,16 @@ const reloadMoves = () => {
   MOVES.innerHTML = "0";
 };
 
-
 // add sounds
+
+const soundClick = () => {
+  let audio = new Audio();
+  audio.src = "click.mp3";
+  if (document.getElementById("music").value === "on") {
+    audio.autoplay = true;
+  } else {
+    audio.autoplay = false;
+  }
+};
+
 
